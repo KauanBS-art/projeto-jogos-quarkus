@@ -1,0 +1,74 @@
+@startuml game2
+
+' - - - Enums - - - '
+enum TipoUsuario { 
+  ADMINISTRADOR
+  MODERADOR
+}
+enum TipoEmpresa { 
+  DESENVOLVEDORA
+  PUBLICADORA
+  DISTRIBUIDORA
+}
+
+' - - - Classes/Entidades - - - '
+class Usuario {
+  +id_usuario: int
+  +nome: string
+  +email: string
+  +senha: string
+  +tipo: TipoUsuario
+}
+
+class Administrador {
+  +id_admin: int
+}
+
+class Moderador {
+  +id_mod: int
+}
+
+class Empresa {
+  +id_empresa: int
+  +nome: string
+  +tipo: TipoEmpresa
+}
+
+class Plataforma {
+  +id_plataforma: int
+  +nome: string
+}
+
+class Categoria {
+  +id_categoria: int
+  +nome: string
+}
+
+class Jogo {
+  +id_jogo: int
+  +titulo: string
+  +preco: double
+  +tamanho: int
+  +data_lancamento: date
+}
+
+' - - - Relacionamentos das classes - - - '
+Administrador --|> Usuario
+Moderador --|> Usuario
+
+Administrador "1" -- "0..*" Empresa
+Administrador "1" -- "0..*" Plataforma
+Administrador "1" -- "0..*" Categoria
+Administrador "1" -- "0..*" Moderador
+Administrador "1" -- "0..*" Jogo
+
+Empresa *-- "1..*" Jogo
+
+Jogo o-- "1..*" Categoria
+Jogo o-- "1..*" Plataforma
+
+' - - - Relacionamentos de Enum - -- '
+Usuario --> TipoUsuario
+Empresa --> TipoEmpresa
+
+@enduml

@@ -1,0 +1,163 @@
+@startuml game
+
+' - - - Enums - - - '
+enum TipoUsuario { 
+  CLIENTE
+  ADMINISTRADOR
+  MODERADOR
+}
+enum TipoEmpresa { 
+  DESENVOLVEDORA
+  PUBLICADORA
+  DISTRIBUIDORA
+}
+enum StatusPagamento { 
+  PENDENTE
+  PAGO
+  CANCELADO
+}
+enum TipoMetodoPagamento { 
+  CARTAOCREDITO
+  CARTAODEBITO
+}
+enum StatusPedido {
+  ABERTO
+  PROCESSADO
+  FINALIZADO
+}
+
+' - - - Classes/Entidades (Usuários) - - - '
+class Usuario {
+  +id_usuario: int
+  +nome: string
+  +email: string
+  +senha: string
+  +tipo: TipoUsuario
+}
+
+class Cliente {
+  +id_cliente: int
+  +data_nascimento: date
+}
+
+class Administrador {
+  +id_admin: int
+}
+
+class Moderador {
+  +id_mod: int
+}
+
+' - - - Classes/Entidades Administrativas - - - '
+class Empresa {
+  +id_empresa: int
+  +nome: string
+  +tipo: TipoEmpresa
+}
+
+class Plataforma {
+  +id_plataforma: int
+  +nome: string
+}
+
+class Categoria {
+  +id_categoria: int
+  +nome: string
+}
+
+class Jogo {
+  +id_jogo: int
+  +titulo: string
+  +descricao: string
+  +preco: double
+  +tamanho: int
+  +data_lancamento: date
+}
+
+' - - - Classes/Entidades de Compra - - - '
+class Filtro {
+  +id_filtro: int
+  +tipo: string
+  +valor: string
+}
+
+class Carrinho {
+  +id_carrinho: int
+  +data_criacao: date
+}
+
+class ItemCarrinho {
+  +id_item: int
+  +quantidade: int
+  +preco_unitario: double
+}
+
+class Pedido {
+  +id_pedido: int
+  +data_pedido: date
+  +valor_total: double
+  +status: StatusPedido
+}
+
+class ItemPedido {
+  +id_item: int
+  +quantidade: int
+  +preco_unitario: double
+}
+
+class MetodoPagamento {
+  +id_metodo: int
+  +tipo: TipoMetodoPagamento
+  +dados: string
+}
+
+class Pagamento {
+  +id_pagamento: int
+  +valor: double
+  +data_pagamento: date
+  +status: StatusPagamento
+}
+
+' - - - Relacionamentos Principais - - - '
+
+Cliente --|> Usuario
+Administrador --|> Usuario
+Moderador --|> Usuario
+
+
+Cliente "1" -- "*" Pedido
+Cliente "1" -- "1" Carrinho
+Cliente "1" -- "0..*" MetodoPagamento
+
+Administrador "1" -- "0..*" Empresa
+Administrador "1" -- "0..*" Plataforma
+Administrador "1" -- "0..*" Categoria
+Administrador "1" -- "0..*" Moderador
+Administrador "1" -- "0..*" Jogo
+Administrador "1" -- "0..*" Filtro
+
+
+Empresa *-- "1..*" Jogo
+Jogo "*" -- "*" Plataforma
+Jogo "*" -- "*" Categoria
+Jogo "*" -- "*" Filtro
+
+
+Carrinho *-- "1..*" ItemCarrinho
+ItemCarrinho "*" --> "1" Jogo
+
+Pedido o-- "1..*" ItemPedido
+ItemPedido "*" --> "1" Jogo
+
+Pedido "1" --> "1" Pagamento
+Pagamento "1" --> "1" MetodoPagamento
+
+
+' - - - Relacionamentos de Enum - - - '
+Usuario --> TipoUsuario
+Empresa --> TipoEmpresa
+Pagamento --> StatusPagamento
+MetodoPagamento --> TipoMetodoPagamento
+Pedido --> StatusPedido
+
+@enduml
