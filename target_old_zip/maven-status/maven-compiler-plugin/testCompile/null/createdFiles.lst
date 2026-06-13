@@ -1,0 +1,7 @@
+com\kauangamestore\resource\CategoriaResourceTest.class
+com\kauangamestore\resource\PlataformaResourceTest.class
+com\kauangamestore\resource\JogoResourceTest.class
+com\kauangamestore\resource\AuthResourceTest.class
+com\kauangamestore\resource\PedidoResourceTest.class
+com\kauangamestore\resource\EmpresaResourceTest.class
+com\kauangamestore\resource\UsuarioResourceTest.class
